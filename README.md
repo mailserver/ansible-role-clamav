@@ -11,7 +11,7 @@ Examples
 ### ClamAV via Socket
 
 ```yaml
-- role: clamav
+- role: mailserver.clamav
   milter_socket_path: "/var/spool/postfix/milters/clamav-milter.ctl"
   milter_socket_group: "milter"
   additional_group_memberships: [ "milter" ]
