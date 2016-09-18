@@ -1,0 +1,3 @@
+---
+
+clamav_freshclam_flags="--config-file={{clamav_config_dir}}/freshclam.conf"

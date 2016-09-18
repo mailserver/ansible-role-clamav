@@ -1,0 +1,16 @@
+---
+
+- include: debian.yml
+  when: ansible_distribution == "Debian"
+
+- include: freebsd.yml
+  when: ansible_distribution == "FreeBSD"
+
+- name: start freshclam
+  service: name=clamav-freshclam state=started
+
+- name: restart clamav-milter
+  service: name=clamav-milter state=restarted
+
+- name: restart freshclam
+  service: name=clamav-freshclam state=restarted

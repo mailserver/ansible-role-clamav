@@ -1,0 +1,7 @@
+# This file is prefixed with `z` because otherwise
+# the system-provided `extend.conf` overrides our settings
+
+[Socket]
+ListenStream=
+ListenStream={{clamd_socket_path}}
+

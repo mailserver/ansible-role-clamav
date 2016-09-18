@@ -1,0 +1,41 @@
+---
+# Debian
+
+- name: Install software
+  apt: name={{item}} state=present
+  with_items:
+    - clamav
+    - clamav-freshclam
+    - clamav-milter
+    - arj
+    - bzip2
+    - cabextract
+    - cpio
+    - file
+    - gzip
+    - lhasa
+    - lzop
+    - nomarch
+    - p7zip
+    - pax
+    - rpm
+    - unrar-free
+    - unzip
+    - zip
+
+- name: Create clamav systemd unit extension directory
+  file: name=/etc/systemd/system/clamav-daemon.socket.d
+        state=directory owner=root group=root
+
+- name: Sync clamav system unit amendment
+  template: src=systemd/system/clamav-daemon.socket.d/z_custom_socket.conf.jj2 dest=/etc/systemd/system/clamav-daemon.socket.d/z_custom_socket.conf
+  notify:
+    - daemon-reload
+    - restart clamav-socket
+
+- name: Enable services
+  command: systemctl enable {{item}}
+  with_items:
+    - clamav-freshclam
+    - clamav-daemon
+    - clamav-milter

@@ -1,0 +1,32 @@
+---
+# FreeBSD
+
+- pkgng: name={{item}} state=present
+  with_items:
+    - clamav-milter
+  notify:
+    - restart clamav
+    - restart clamav-milter
+
+- name: Install rc.conf.d scripts
+  template: src=rc.conf.d/{{item}}.jj2 dest=/etc/rc.conf.d/{{item}}
+  with_items:
+    - clamav_milter
+    - clamav_clamd
+    - clamav_freshclam
+  notify:
+    - restart clamav
+    - restart clamav-milter
+    - restart freshclam
+
+- service: name={{item}} enabled=yes
+  with_items:
+  - clamav-clamd
+  - clamav-freshclam
+  - clamav-milter
+  notify:
+    - restart clamav
+    - restart clamav-milter
+    - restart freshclam
+
+

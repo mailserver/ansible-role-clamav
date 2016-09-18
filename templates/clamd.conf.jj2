@@ -1,0 +1,112 @@
+LocalSocket {{clamd_socket_path}}
+LocalSocketGroup {{clamd_socket_group}}
+LocalSocketMode 660
+FixStaleSocket true
+
+LogSyslog false
+LogRotate true
+LogFacility LOG_LOCAL6
+LogClean false
+LogVerbose false
+LogFile {{clamd_log_file}}
+LogTime true
+LogFileUnlock false
+LogFileMaxSize 0
+
+StatsEnabled false
+StatsPEDisabled true
+StatsHostID auto
+StatsTimeout 10
+
+IdleTimeout 30
+
+ForceToDisk false
+
+Foreground false
+Debug false
+
+StreamMaxLength 25M
+
+{% if ansible_distribution == 'Debian' %}
+DatabaseDirectory /var/lib/clamav
+{% else %}
+DatabaseDirectory /var/db/clamav
+{% endif %}
+
+TemporaryDirectory /tmp
+
+User {{clamd_user}}
+
+ReadTimeout 10
+
+AllowSupplementaryGroups false
+
+MaxThreads {{ansible_processor_count}}
+MaxConnectionQueueLength {{ansible_processor_count * 2}}
+MaxDirectoryRecursion 15
+MaxEmbeddedPE 10M
+MaxHTMLNormalize 10M
+MaxHTMLNoTags 2M
+MaxScriptNormalize 5M
+MaxZipTypeRcg 1M
+MaxQueue 100
+MaxScanSize 100M
+MaxFileSize 25M
+MaxRecursion 10
+MaxFiles 10000
+MaxPartitions 50
+MaxIconsPE 100
+
+
+# Archives
+ArchiveBlockEncrypted false
+
+FollowDirectorySymlinks false
+FollowFileSymlinks false
+OfficialDatabaseOnly false
+SelfCheck 3600
+
+
+# Scanning
+ScanMail true
+ScanArchive true
+ScanPE true
+ScanOLE2 true
+ScanPDF true
+ScanHTML true
+ScanSWF true
+ScanELF true
+ScanPartialMessages false
+ScanOnAccess false
+
+PhishingSignatures true
+PhishingScanURLs true
+PhishingAlwaysBlockSSLMismatch false
+PhishingAlwaysBlockCloak false
+
+Bytecode true
+BytecodeSecurity TrustSigned
+BytecodeTimeout 60000
+
+DisableCertCheck false
+DisableCache false
+
+DetectBrokenExecutables false
+ExitOnOOM false
+LeaveTemporaryFiles false
+AlgorithmicDetection true
+
+CrossFilesystems true
+
+PartitionIntersection false
+DetectPUA false
+
+HeuristicScanPrecedence false
+StructuredDataDetection false
+CommandReadTimeout 5
+SendBufTimeout 200
+
+ExtendedDetectionInfo true
+OLE2BlockMacros false
+
+AllowAllMatchScan true

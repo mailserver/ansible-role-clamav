@@ -1,0 +1,13 @@
+---
+# Debian specific
+
+- name: daemon-reload
+  command: systemctl daemon-reload
+
+- name: restart clamav-socket
+  command: systemctl restart clamav-daemon.socket
+
+- name: restart clamav
+  service: name=clamav-daemon state=restarted
+
+
