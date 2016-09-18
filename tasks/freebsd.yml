@@ -9,7 +9,7 @@
     - restart clamav-milter
 
 - name: Install rc.conf.d scripts
-  template: src=rc.conf.d/{{item}}.jj2 dest=/etc/rc.conf.d/{{item}}
+  template: src=rc.conf.d/{{item}}.j2 dest=/etc/rc.conf.d/{{item}}
   with_items:
     - clamav_milter
     - clamav_clamd
