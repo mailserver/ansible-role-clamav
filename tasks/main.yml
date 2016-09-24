@@ -1,42 +1,16 @@
 ---
+
 - include_vars: freebsd.yml
-  when: ansible_distribution == 'FreeBSD'
-
-- include_vars: debian.yml
-  when: ansible_distribution == 'Debian'
-
-
-- include: debian.yml
-  when: ansible_distribution == "Debian"
-
-- include: freebsd.yml
   when: ansible_distribution == "FreeBSD"
 
-- name: Make sure config dir is present
-  file: path={{clamav_config_dir}} state=directory
+- include_vars: debian.yml
+  when: (ansible_distribution == "Debian") or (ansible_distribution == "Ubuntu")
 
-- name: Sync config for milter and freshclam
-  template: src={{item}}.j2 dest={{clamav_config_dir}}/{{item}}
-  with_items:
-    - clamav-milter.conf
-    - clamd.conf
-    - freshclam.conf
-  notify:
-    - restart clamav
-    - restart clamav-socket
-    - restart freshclam
-    - restart clamav-milter
+# Combine Configuration
+- set_fact: _clamav_config="{{ clamav_default_config | combine(clamav_config, recursive=True) }}"
+  no_log: true
 
-- name: Make milter part of the milter group
-  user: name={{clamd_user}} append=yes groups={{milter_socket_group}}
-  notify:
-    - restart clamav-milter
-
-- name: Stop clamav before updating the virus database
-  service: name=clamav-freshclam state=stopped
- 
-- name: Make sure virus database is up to date (this may take long time if the DNS RR picks a bad mirror)
-  command: freshclam --config-file {{clamav_config_dir}}/freshclam.conf
-  notify:
-    - start freshclam
- 
+- include: prepare.yml
+- include: install.yml
+- include: configure.yml
+- include: update-database.yml

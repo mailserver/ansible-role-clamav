@@ -1,0 +1,13 @@
+---
+
+- name: Sync config for milter and freshclam
+  template: src={{item}}.j2 dest={{clamav_config_dir}}/{{item}}
+  with_items:
+    - clamav-milter.conf
+    - clamd.conf
+    - freshclam.conf
+  notify:
+    - restart clamav
+    - restart clamav-socket
+    - restart freshclam
+    - restart clamav-milter

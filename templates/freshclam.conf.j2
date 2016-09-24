@@ -1,5 +1,5 @@
-DatabaseOwner {{clamd_user}}
-UpdateLogFile {{freshclam_log_file}}
+DatabaseOwner {{ _clamav_config.clamd.user }}
+UpdateLogFile {{ _clamav_config.freshclam.log_file }}
 LogVerbose false
 LogSyslog false
 LogFacility LOG_LOCAL6
@@ -9,25 +9,25 @@ LogTime true
 Foreground false
 Debug false
 MaxAttempts 2
-DatabaseDirectory {{clamav_database_directory}}
+DatabaseDirectory {{ _clamav_config.database_dir }}
 DNSDatabaseInfo current.cvd.clamav.net
 AllowSupplementaryGroups false
 ConnectTimeout 30
 ReceiveTimeout 30
 TestDatabases yes
-ScriptedUpdates {{freshclam_scripted_updates}}
+ScriptedUpdates {{ "yes" if (_clamav_config.freshclam.auto_update == true) else "no" }}
 CompressLocalDatabase no
 SafeBrowsing false
 Bytecode true
-NotifyClamd {{clamav_config_dir}}/clamd.conf
+NotifyClamd {{ _clamav_config.config_dir }}/clamd.conf
 # Check for new database 24 times a day
-Checks 24
-{% if freshclam_custom_database_mirror != None %}
-DatabaseMirror {{freshclam_custom_database_mirror}}
+Checks {{ _clamav_config.freshclam.update_interval }}
+{% if (_clamav_config.freshclam.custom_database_mirror is defined) and (_clamav_config.freshclam.custom_database_mirror != None) %}
+DatabaseMirror {{ _clamav_config.freshclam.custom_database_mirror }}
 {% else %}
 DatabaseMirror db.local.clamav.net
 DatabaseMirror database.clamav.net
 {% endif %}
-{% if freshclam_private_mirror %}
-PrivateMirror {{freshclam_private_mirror}}
+{% if (_clamav_config.freshclam.private_mirror is defined) and (_clamav_config.freshclam.private_mirror != None) %}
+PrivateMirror {{ _clamav_config.freshclam.private_mirror }}
 {% endif %}

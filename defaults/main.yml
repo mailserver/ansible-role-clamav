@@ -5,28 +5,24 @@ os:
   logdir: /var/log
   rundir: /var/run
 
-clamav_config_dir: "{{os.prefix}}/etc/clamav"
-
-additional_group_memberships: None
-milter_log_path: "{{os.logdir}}/clamav/clamav-milter.log"
-milter_pidfile: "{{os.rundir}}/clamav/clamav-milter.pid"
-milter_socket_path: "{{os.rundir}}/clamav/clamav-milter.ctl"
-milter_socket_group: "clamav"
-
-clamd_user: "clamav"
-clamd_socket_group: "clamav"
-clamd_socket_path: "{{os.rundir}}/clamav/clamd.ctl"
-clamd_log_file: "{{os.logdir}}/clamav/clamav.log"
-
-clamav_database_directory: /var/db/clamav
-
-freshclam_log_file: "{{os.logdir}}/clamav/freshclam.log"
-
-# This has to be a string
-freshclam_scripted_updates: "yes"
-# When setting this variable, there will be no other mirror.
-freshclam_custom_database_mirror:
-
-# Set the freshclam PrivateMirror option. 
-# Useful to provide a stub mirror when testing the deployment
-freshclam_private_mirror:
+clamav_default_config:
+  config_dir: "{{os.prefix}}/etc/clamav"
+  database_dir: "{{ clamav_database_directory }}"
+  freshclam:
+    log_file: "{{os.logdir}}/clamav/freshclam.log"
+    # database_mirror:
+    # private_mirror:
+    auto_update: true
+    update_interval: 24 # hours
+  clamd:
+    user: "clamav"
+    group: "clamav"
+    log_file: "{{os.logdir}}/clamav/clamav.log"
+    socket_path: "{{os.rundir}}/clamav/clamd.ctl"
+    socket_mode: 0660
+  milter:
+    log_file: "{{os.logdir}}/clamav/clamav-milter.log"
+    pidfile: "{{os.rundir}}/clamav/clamav-milter.pid"
+    socket_path: "{{os.rundir}}/clamav/clamav-milter.ctl"
+    socket_mode: 0660
+    group: "clamav"

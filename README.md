@@ -12,9 +12,9 @@ Examples
 
 ```yaml
 - role: mailserver.clamav
-  milter_socket_path: "/var/spool/postfix/milters/clamav-milter.ctl"
-  milter_socket_group: "milter"
-  additional_group_memberships: [ "milter" ]
+  milter:
+    socket_path: "/var/spool/postfix/milters/clamav-milter.ctl"
+    group: "milter"
 ```
 
 The directory `/var/spool/postfix/milters` is expected to exist with read/write access to the milter_socket_group.

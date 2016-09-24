@@ -1,6 +1,6 @@
-LocalSocket {{clamd_socket_path}}
-LocalSocketGroup {{clamd_socket_group}}
-LocalSocketMode 660
+LocalSocket {{ _clamav_config.clamd.socket_path }}
+LocalSocketGroup {{ _clamav_config.clamd.daemon_group }}
+LocalSocketMode {{ _clamav_config.clamd.socket_mode }}
 FixStaleSocket true
 
 LogSyslog false
@@ -8,7 +8,7 @@ LogRotate true
 LogFacility LOG_LOCAL6
 LogClean false
 LogVerbose false
-LogFile {{clamd_log_file}}
+LogFile {{ _clamav_config.clamd.log_file }}
 LogTime true
 LogFileUnlock false
 LogFileMaxSize 0
@@ -27,22 +27,17 @@ Debug false
 
 StreamMaxLength 25M
 
-{% if ansible_distribution == 'Debian' %}
-DatabaseDirectory /var/lib/clamav
-{% else %}
-DatabaseDirectory /var/db/clamav
-{% endif %}
-
+DatabaseDirectory {{ _clamav_config.database_dir }}
 TemporaryDirectory /tmp
 
-User {{clamd_user}}
+User {{ _clamav_config.clamd.user }}
 
 ReadTimeout 10
 
 AllowSupplementaryGroups false
 
-MaxThreads {{ansible_processor_count}}
-MaxConnectionQueueLength {{ansible_processor_count * 2}}
+MaxThreads {{ ansible_processor_count }}
+MaxConnectionQueueLength {{ ansible_processor_count * 2 }}
 MaxDirectoryRecursion 15
 MaxEmbeddedPE 10M
 MaxHTMLNormalize 10M

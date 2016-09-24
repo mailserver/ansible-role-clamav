@@ -1,10 +1,10 @@
-ClamdSocket unix:{{clamd_socket_path}}
+ClamdSocket unix:{{ _clamav_config.clamd.socket_path }}
 FixStaleSocket true
 User clamav
 AllowSupplementaryGroups true
 ReadTimeout 120
 Foreground false
-PidFile {{milter_pidfile}}
+PidFile {{ _clamav_config.milter.pidfile }}
 OnClean Accept
 OnInfected Reject
 OnFail Defer
@@ -18,10 +18,10 @@ LogRotate true
 MaxFileSize 25M
 SupportMultipleRecipients false
 TemporaryDirectory /tmp
-LogFile {{milter_log_path}}
+LogFile {{ _clamav_config.milter.log_file }}
 LogTime true
 LogFileUnlock false
 LogFileMaxSize 1M
-MilterSocket {{milter_socket_path}}
-MilterSocketGroup {{milter_socket_group}}
-MilterSocketMode 660
+MilterSocket {{ _clamav_config.milter.socket_path }}
+MilterSocketGroup {{ _clamav_config.milter.group }}
+MilterSocketMode {{ _clamav_config.milter.socket_mode }}

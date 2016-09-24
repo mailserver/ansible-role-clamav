@@ -1,0 +1,9 @@
+---
+
+- name: Make sure config dir is present
+  file: path={{clamav_config_dir}} state=directory
+
+- name: Make milter part of the milter group
+  user: name={{clamd_user}} append=yes groups={{milter_socket_group}}
+  notify:
+    - restart clamav-milter
