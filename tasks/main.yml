@@ -7,7 +7,7 @@
   when: (ansible_distribution == "Debian") or (ansible_distribution == "Ubuntu")
 
 # Combine Configuration
-- set_fact: _clamav_config="{{ clamav_default_config | combine(clamav_config, recursive=True) }}"
+- set_fact: _clamav_config="{{ clamav_default_config | combine(clamav_config | default({}), recursive=True) }}"
   no_log: true
 
 - include: prepare.yml

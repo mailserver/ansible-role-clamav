@@ -18,11 +18,13 @@ clamav_default_config:
     user: "clamav"
     group: "clamav"
     log_file: "{{os.logdir}}/clamav/clamav.log"
-    socket_path: "{{os.rundir}}/clamav/clamd.ctl"
-    socket_mode: 0660
+    socket:
+      path: "{{os.rundir}}/clamav/clamd.ctl"
+      mode: 0660
   milter:
     log_file: "{{os.logdir}}/clamav/clamav-milter.log"
     pidfile: "{{os.rundir}}/clamav/clamav-milter.pid"
-    socket_path: "{{os.rundir}}/clamav/clamav-milter.ctl"
-    socket_mode: 0660
+    socket:
+      path: "{{os.rundir}}/clamav/clamav-milter.ctl"
+      mode: 0660
     group: "clamav"

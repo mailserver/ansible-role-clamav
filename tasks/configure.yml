@@ -1,7 +1,9 @@
 ---
 
 - name: Sync config for milter and freshclam
-  template: src={{item}}.j2 dest={{clamav_config_dir}}/{{item}}
+  template:
+    src: "{{item}}.j2"
+    dest: "{{_clamav_config.config_dir}}/{{item}}"
   with_items:
     - clamav-milter.conf
     - clamd.conf

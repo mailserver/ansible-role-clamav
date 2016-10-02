@@ -1,6 +1,6 @@
-LocalSocket {{ _clamav_config.clamd.socket_path }}
-LocalSocketGroup {{ _clamav_config.clamd.daemon_group }}
-LocalSocketMode {{ _clamav_config.clamd.socket_mode }}
+LocalSocket {{ _clamav_config.clamd.socket.path }}
+LocalSocketGroup {{ _clamav_config.clamd.group }}
+LocalSocketMode {{ _clamav_config.clamd.socket.mode }}
 FixStaleSocket true
 
 LogSyslog false

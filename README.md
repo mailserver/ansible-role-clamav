@@ -17,4 +17,4 @@ Examples
     group: "milter"
 ```
 
-The directory `/var/spool/postfix/milters` is expected to exist with read/write access to the milter_socket_group.
+The directory `/var/spool/postfix/milters` is expected to exist with read/write access to the _clamav_config.milter.group.

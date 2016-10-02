@@ -1,6 +1,6 @@
-clamav_milter_socket="{{milter_socket_path}}"
-clamav_milter_socket_group="{{milter_socket_group}}"
-clamav_milter_conf="{{clamav_config_dir}}/clamav-milter.conf"
+clamav_milter_socket="{{_clamav_config.milter.socket.path}}"
+clamav__clamav_config.milter.group="{{_clamav_config.milter.group}}"
+clamav_milter_conf="{{_clamav_config.config_dir}}/clamav-milter.conf"
 clamav_clamd_socket="{{clamd_socket_path}}"
-clamav_clamd_flags="--config-file={{clamav_config_dir}}/clamd.conf"
+clamav_clamd_flags="--config-file={{_clamav_config.config_dir}}/clamd.conf"
 
