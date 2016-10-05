@@ -1,4 +1,4 @@
-ClamdSocket unix:{{ _clamav_config.clamd.socket_path }}
+ClamdSocket unix:{{ _clamav_config.clamd.socket.path }}
 FixStaleSocket true
 User clamav
 AllowSupplementaryGroups true
@@ -22,6 +22,6 @@ LogFile {{ _clamav_config.milter.log_file }}
 LogTime true
 LogFileUnlock false
 LogFileMaxSize 1M
-MilterSocket {{ _clamav_config.milter.socket_path }}
+MilterSocket {{ _clamav_config.milter.socket.path }}
 MilterSocketGroup {{ _clamav_config.milter.group }}
-MilterSocketMode {{ _clamav_config.milter.socket_mode }}
+MilterSocketMode {{ _clamav_config.milter.socket.mode }}

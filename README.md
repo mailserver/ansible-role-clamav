@@ -13,7 +13,8 @@ Examples
 ```yaml
 - role: mailserver.clamav
   milter:
-    socket_path: "/var/spool/postfix/milters/clamav-milter.ctl"
+    socket:
+      path: "/var/spool/postfix/milters/clamav-milter.ctl"
     group: "milter"
 ```
 

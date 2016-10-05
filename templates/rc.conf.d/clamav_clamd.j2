@@ -1,2 +1,2 @@
-clamav_clamd_socket="{{clamd_socket_path}}"
-clamav_clamd_flags="--config-file={{clamav_config_dir}}/clamd.conf"
+clamav_clamd_socket="{{_clamav_config.milter.socket.path}}"
+clamav_clamd_flags="--config-file={{_clamav_config.config_dir}}/clamd.conf"
