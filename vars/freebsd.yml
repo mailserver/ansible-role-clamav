@@ -1,3 +1,6 @@
 ---
 
-clamav_database_directory: /var/db/clamav
+clamav_database_directory: /var/lib/clamav
+clamav_daemon_config_file: /etc/clamav/clamd.conf
+clamav_freshclam_config_file: /etc/clamav/freshclam.conf
+clamav_milter_config_file: /etc/clamav/clamav-milter.conf

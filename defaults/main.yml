@@ -5,26 +5,46 @@ os:
   logdir: /var/log
   rundir: /var/run
 
+# Users
+clamav_user: "clamav"
+clamav_milter_group: "milter"
+
+# Config and Data Directories
+clamav_database_directory: /var/lib/clamav
+clamav_daemon_config_file: /etc/clamav/clamd.conf
+clamav_freshclam_config_file: /etc/clamav/freshclam.conf
+clamav_milter_config_file: /etc/clamav/clamav-milter.conf
+
+# Sockets
+clamav_clamd_socket: "{{os.rundir}}/clamav/clamd.ctl"
+clamav_milter_socket: "{{os.rundir}}/clamav/clamav-milter.ctl"
+
+clamav_debug: false
+
 clamav_default_config:
-  config_dir: "{{os.prefix}}/etc/clamav"
-  database_dir: "{{ clamav_database_directory }}"
   freshclam:
-    log_file: "{{os.logdir}}/clamav/freshclam.log"
-    # database_mirror:
-    # private_mirror:
-    auto_update: true
-    update_interval: 24 # hours
+    UpdateLogFile: "{{os.logdir}}/clamav/freshclam.log"
+    LogVerbose: "{{ clamav_debug }}"
+    Debug: "{{ clamav_debug }}"
+    DatabaseDirectory: "{{ clamav_database_directory }}"
+    DatabaseOwner: "{{ clamav_user }}"
+    # DatabaseMirror:
+    # PrivateMirror:
+    ScriptedUpdates: true # enables auto-update
+    Checks: 24 # update interval in hours
   clamd:
-    user: "clamav"
-    group: "clamav"
-    log_file: "{{os.logdir}}/clamav/clamav.log"
-    socket:
-      path: "{{os.rundir}}/clamav/clamd.ctl"
-      mode: 0660
+    User: "{{ clamav_user }}"
+    LocalSocket: "unix:{{ clamav_clamd_socket }}"
+    LocalSocketMode: "0600"
+    LogFile: "{{os.logdir}}/clamav/clamav.log"
+    DatabaseDirectory: "{{ clamav_database_directory }}"
+    MaxThreads: "{{ ansible_processor_count }}"
+    MaxConnectionQueueLength: "{{ ansible_processor_count * 2 }}"
   milter:
-    log_file: "{{os.logdir}}/clamav/clamav-milter.log"
-    pidfile: "{{os.rundir}}/clamav/clamav-milter.pid"
-    socket:
-      path: "{{os.rundir}}/clamav/clamav-milter.ctl"
-      mode: 0660
-    group: "clamav"
+    User: "{{ clamav_user }}"
+    LogFile: "{{os.logdir}}/clamav/clamav-milter.log"
+    PidFile: "{{os.rundir}}/clamav/clamav-milter.pid"
+    ClamdSocket: "unix:{{ clamav_clamd_socket }}"
+    MilterSocket: "unix:{{ clamav_milter_socket }}"
+    MilterSocketMode: "0660"
+    MilterSocketGroup: "{{ clamav_milter_group }}"

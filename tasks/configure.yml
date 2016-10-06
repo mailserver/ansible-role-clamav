@@ -1,15 +1,29 @@
 ---
 
-- name: Sync config for milter and freshclam
-  template:
-    src: "{{item}}.j2"
-    dest: "{{_clamav_config.config_dir}}/{{item}}"
-  with_items:
-    - clamav-milter.conf
-    - clamd.conf
-    - freshclam.conf
+- name: ClamAV daemon is configured
+  lineinfile:
+    dest: "{{ clamav_daemon_config_file }}"
+    regexp: "^{{ item.key }}\\ "
+    line: "{{ item.key }} {{ item.value }}"
+  with_dict: "{{ _clamav_config.clamd }}"
   notify:
     - restart clamav
     - restart clamav-socket
+
+- name: ClamAV freshclam is configured
+  lineinfile:
+    dest: "{{ clamav_freshclam_config_file }}"
+    regexp: "^{{ item.key }}\\ "
+    line: "{{ item.key }} {{ item.value }}"
+  with_dict: "{{ _clamav_config.freshclam }}"
+  notify:
     - restart freshclam
+
+- name: ClamAV milter is configured
+  lineinfile:
+    dest: "{{ clamav_milter_config_file }}"
+    regexp: "^{{ item.key }}\\ "
+    line: "{{ item.key }} {{ item.value }}"
+  with_dict: "{{ _clamav_config.milter }}"
+  notify:
     - restart clamav-milter

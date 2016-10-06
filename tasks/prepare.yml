@@ -1,26 +1,40 @@
 ---
 
-- name: groups exist
+- name: milter groups exist
   group:
-    name: "{{ item }}"
+    name: "{{ clamav_milter_group }}"
     state: present
     system: true
-  with_items:
-    - "{{ _clamav_config.clamd.group }}"
-    - "{{ _clamav_config.milter.group }}"
 
-- name: clamav user exists and is part of the milter group
+- name: ClamAV user exists and is part of the milter group
   user:
-    name: "{{ _clamav_config.clamd.user }}"
-    group: "{{ _clamav_config.clamd.group }}"
-    groups: "{{ _clamav_config.milter.group }}"
+    name: "{{ clamav_user }}"
+    groups: "{{ clamav_milter_group }}"
     append: true
     system: true
   notify:
     - restart clamav-milter
 
-- name: config dir is present
+- name: ClamAV config directory is present
   file:
-    path: "{{ _clamav_config.config_dir }}"
+    path: "{{ item | dirname }}"
     state: directory
+  with_items:
+    - "{{ clamav_daemon_config_file }}"
+    - "{{ clamav_freshclam_config_file }}"
+    - "{{ clamav_milter_config_file }}"
 
+- name: ClamAV daemon socket directory exists
+  file:
+    path: "{{ clamav_clamd_socket | dirname }}"
+    state: directory
+    owner: "{{ clamav_user }}"
+    group: "{{ clamav_milter_group }}"
+    mode: 0770
+
+- name: ClamAV milter direcory exists
+  file:
+    path: "{{ clamav_milter_socket | dirname }}"
+    state: directory
+    group: "{{ clamav_milter_group }}"
+    mode: "o+rwx,g+rwx"

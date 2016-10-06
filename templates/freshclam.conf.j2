@@ -1,4 +1,4 @@
-DatabaseOwner {{ _clamav_config.clamd.user }}
+DatabaseOwner {{ _clamav_config.clamd.User }}
 UpdateLogFile {{ _clamav_config.freshclam.log_file }}
 LogVerbose false
 LogSyslog false
@@ -9,7 +9,7 @@ LogTime true
 Foreground false
 Debug false
 MaxAttempts 2
-DatabaseDirectory {{ _clamav_config.database_dir }}
+DatabaseDirectory {{ _clamav_config.clamd.DatabaseDirectory }}
 DNSDatabaseInfo current.cvd.clamav.net
 AllowSupplementaryGroups false
 ConnectTimeout 30

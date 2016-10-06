@@ -2,12 +2,12 @@
 
 # ToDo: Detect first run and skip later if auto-updates are enabled
 
-- name: Stop clamav before updating the virus database
+- name: Stop ClamAV before updating the virus database
   service:
     name: clamav-freshclam
     state: stopped
  
 - name: Make sure virus database is up to date (this may take long time if the DNS RR picks a bad mirror)
-  command: freshclam --config-file {{_clamav_config.config_dir}}/freshclam.conf
+  command: freshclam --config-file {{ clamav_freshclam_config_file }}
   notify:
     - start freshclam
