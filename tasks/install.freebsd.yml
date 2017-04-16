@@ -19,7 +19,7 @@
     - clamav_clamd
     - clamav_freshclam
   notify:
-    - restart clamav
+    - restart clamav freebsd
     - restart clamav-milter
     - restart freshclam
 
@@ -31,6 +31,6 @@
     - clamav-freshclam
     - clamav-milter
   notify:
-    - restart clamav
+    - restart clamav freebsd
     - restart clamav-milter
     - restart freshclam

@@ -1,10 +1,10 @@
 ---
 
-- include: debian.yml
-  when: ansible_distribution == "Debian"
+- name: daemon-reload
+  command: systemctl daemon-reload
 
-- include: freebsd.yml
-  when: ansible_distribution == "FreeBSD"
+- name: restart clamav-socket
+  command: systemctl restart clamav-daemon.socket
 
 - name: start freshclam
   service: name=clamav-freshclam state=started
@@ -14,3 +14,15 @@
 
 - name: restart freshclam
   service: name=clamav-freshclam state=restarted
+
+# Linux specific
+
+- name: restart clamav linux
+  service: name=clamav-daemon state=restarted
+  when: ansible_distribution != "FreeBSD"
+
+# FreeBSD specific
+
+- name: restart clamav freebsd
+  service: name=clamav-clamd state=restarted
+  when: ansible_distribution == "FreeBSD"

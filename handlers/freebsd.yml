@@ -1,5 +1,0 @@
----
-# FreeBSD specific
-
-- name: restart clamav
-  service: name=clamav-clamd state=restarted
