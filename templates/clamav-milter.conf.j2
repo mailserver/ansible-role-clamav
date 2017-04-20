@@ -25,3 +25,8 @@ LogFileMaxSize 1M
 MilterSocket {{ _clamav_config.milter.socket.path }}
 MilterSocketGroup {{ _clamav_config.milter.group }}
 MilterSocketMode {{ _clamav_config.milter.socket.mode }}
+
+# Actions
+OnClean Accept
+OnInfected Reject
+OnFail Defer
